@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================
   const quoteElement = document.getElementById('quote');
   const quotes = [
-    `“A story should have a beginning, a middle, and an end… but not necessarily in that order.” – Jean-Luc Godard`,
-    `“Cinema is a matter of what's in the frame and what's out.” – Martin Scorsese`,
-    `“A film is—or should be—more like music than like fiction.” – Stanley Kubrick`,
-    `“We don’t make movies to make money. We make money to make more movies.” – Walt Disney`,
-    `“If a million people see my movie, I hope they see a million different movies.” – Quentin Tarantino`,
-    `“My idea of professionalism is probably a lot of people’s idea of obsessive.” – David Fincher`,
-    `“For me, filmmaking combines everything.” – Akira Kurosawa`,
-    `“People say I pay too much attention to the look of a movie, but for God’s sake, I’m making a movie that people are going to look at.” – Ridley Scott`,
+    “A story should have a beginning, a middle, and an end… but not necessarily in that order.” – Jean-Luc Godard,
+    “Cinema is a matter of what's in the frame and what's out.” – Martin Scorsese,
+    “A film is—or should be—more like music than like fiction.” – Stanley Kubrick,
+    “We don’t make movies to make money. We make money to make more movies.” – Walt Disney,
+    “If a million people see my movie, I hope they see a million different movies.” – Quentin Tarantino,
+    “My idea of professionalism is probably a lot of people’s idea of obsessive.” – David Fincher,
+    “For me, filmmaking combines everything.” – Akira Kurosawa,
+    “People say I pay too much attention to the look of a movie, but for God’s sake, I’m making a movie that people are going to look at.” – Ridley Scott,
   ];
 
   let currentQuoteIndex = Math.floor(Math.random() * quotes.length);
@@ -61,42 +61,58 @@ document.addEventListener('DOMContentLoaded', () => {
         fullscreenBtn.title = 'Toggle Fullscreen';
       }
     });
-
-    // Allow escape key to exit fullscreen
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && scriptText.classList.contains('fullscreen')) {
-        scriptText.classList.remove('fullscreen');
-        const icon = fullscreenBtn.querySelector('i');
-        icon.classList.remove('fa-compress');
-        icon.classList.add('fa-expand');
-        fullscreenBtn.title = 'Toggle Fullscreen';
-      }
-    });
   }
 
+  // Escape key to exit fullscreen
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && scriptText.classList.contains('fullscreen')) {
+      scriptText.classList.remove('fullscreen');
+      const icon = fullscreenBtn.querySelector('i');
+      icon.classList.replace('fa-compress', 'fa-expand');
+      fullscreenBtn.title = 'Toggle Fullscreen';
+    }
+  });
+
   // =============================
-  // 🎞️ 4. Auto screenplay formatting
+  // 🎬 4. Automatic screenplay formatting on paste
   // =============================
   function autoFormatScript(rawText) {
     if (!rawText) return '';
 
     const lines = rawText.split('\n').map(line => line.trim());
     const formatted = [];
+    let lastWasCharacter = false;
 
     lines.forEach(line => {
       if (/^(INT\.|EXT\.|EST\.|INT\/EXT\.)/i.test(line)) {
         formatted.push('\n\n' + line.toUpperCase());
+        lastWasCharacter = false;
       } else if (/^[A-Z ]{2,30}$/.test(line) && line.length <= 30) {
         formatted.push('\n' + line.toUpperCase());
+        lastWasCharacter = true;
+      } else if (line.startsWith('(') && line.endsWith(')')) {
+        formatted.push('      ' + line);
+        lastWasCharacter = false;
       } else if (line) {
         formatted.push('    ' + line);
+        lastWasCharacter = false;
       } else {
         formatted.push('');
+        lastWasCharacter = false;
       }
     });
 
     return formatted.join('\n');
   }
+
+  scriptText.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    const formatted = autoFormatScript(pastedText);
+    const start = scriptText.selectionStart;
+    const end = scriptText.selectionEnd;
+    scriptText.value = scriptText.value.slice(0, start) + formatted + scriptText.value.slice(end);
+  });
 
   // =============================
   // 🧠 5. AI breakdown submission
@@ -144,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
       downloadCsvBtn.classList.remove('hidden');
 
     } catch (error) {
-      outputArea.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+      outputArea.innerHTML = <p class="text-red-500">Error: ${error.message}</p>;
     } finally {
       submitButton.disabled = false;
       loadingMessage.classList.add('hidden');
@@ -152,19 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =============================
-  // 🗂️ 6. Display results in table
+  // 🗂 6. Display results in table
   // =============================
   function displayResultsAsTable(data) {
-    let tableHtml = `<table class="w-full text-left border-collapse"><thead><tr class="bg-gray-700"><th class="p-3 border border-gray-600">Category</th><th class="p-3 border border-gray-600">Item</th></tr></thead><tbody>`;
+    let tableHtml = <table class="w-full text-left border-collapse"><thead><tr class="bg-gray-700"><th class="p-3 border border-gray-600">Category</th><th class="p-3 border border-gray-600">Item</th></tr></thead><tbody>;
     for (const category in data) {
       const items = data[category] || [];
       if (items.length > 0) {
         items.forEach(item => {
-          tableHtml += `<tr class="border-t border-gray-800 hover:bg-gray-700"><td class="p-3 border border-gray-600 capitalize">${category}</td><td class="p-3 border border-gray-600">${item}</td></tr>`;
+          tableHtml += <tr class="border-t border-gray-800 hover:bg-gray-700"><td class="p-3 border border-gray-600 capitalize">${category}</td><td class="p-3 border border-gray-600">${item}</td></tr>;
         });
       }
     }
-    tableHtml += `</tbody></table>`;
+    tableHtml += </tbody></table>;
     outputArea.innerHTML = tableHtml;
 
     // 💰 Add production cost estimation
@@ -202,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (COSTS[category]) {
         const subtotal = items.length * COSTS[category];
         total += subtotal;
-        details.push(`${items.length} ${category} → $${subtotal.toLocaleString()}`);
+        details.push(${items.length} ${category} → $${subtotal.toLocaleString()});
       }
     }
 
@@ -252,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.genderChartInstance = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: [`Male ${malePercent}%`, `Female ${femalePercent}%`],
+        labels: [Male ${malePercent}%, Female ${femalePercent}%],
         datasets: [
           {
             data: [maleCount, femaleCount],
@@ -277,32 +293,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================
   // 💾 9. Download CSV
   // =============================
- downloadCsvBtn.addEventListener('click', handleCsvDownload);
+  async function handleCsvDownload() {
+    if (!breakdownResults) {
+      alert('No data to download.');
+      return;
+    }
 
-function handleCsvDownload() {
-  if (!breakdownResults) {
-    alert('No data to download.');
-    return;
+    try {
+      // Convert breakdownResults to CSV format
+      let csvContent = 'data:text/csv;charset=utf-8,Category,Item\n';
+      for (const category in breakdownResults) {
+        const items = breakdownResults[category] || [];
+        items.forEach(item => {
+          csvContent += ${category},${item}\n;
+        });
+      }
+
+      const encodedUri = encodeURI(csvContent);
+      const a = document.createElement('a');
+      a.setAttribute('href', encodedUri);
+      a.setAttribute('download', 'breakdown.csv');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+    } catch (error) {
+      console.error('CSV download error:', error);
+      alert('Error downloading CSV.');
+    }
   }
-
-  let csvContent = 'Category,Item\n';
-  for (const category in breakdownResults) {
-    const items = breakdownResults[category] || [];
-    items.forEach(item => {
-      const safeItem = `"${item.replace(/"/g, '""')}"`;
-      csvContent += `${category},${safeItem}\n`;
-    });
-  }
-
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'breakdown.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
 
 });
