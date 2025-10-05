@@ -1,0 +1,261 @@
+/* =========================================================
+   🎬 CINECON.ALLY — NOIR EDITION STYLES
+   ========================================================= */
+
+/* Global font and layout */
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Background video setup */
+#bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  background-size: cover;
+}
+
+/* Overlay on top of the background video */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Title glow hover */
+.main-title {
+  transition: text-shadow 0.3s ease-in-out;
+}
+.main-title:hover {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+               0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* =========================================================
+   🎞️ AI SCRIPT BREAKDOWN TOOL STYLING
+   ========================================================= */
+
+#breakdown-modal {
+  background-color: rgba(0, 0, 0, 0.95);
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+#breakdown-modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+}
+
+#breakdown-modal:not(.hidden) {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Inner modal box */
+#breakdown-modal .max-w-4xl {
+  background-color: #000;
+  border: 1px solid #444;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+  position: relative; /* so floating buttons anchor correctly */
+}
+
+/* Title */
+#breakdown-modal h2 {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+/* Close button */
+#breakdown-modal #close-modal-btn {
+  color: #888;
+  transition: color 0.3s ease;
+}
+#breakdown-modal #close-modal-btn:hover {
+  color: #fff;
+}
+
+/* Labels */
+#breakdown-modal label {
+  color: #ddd;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Textarea styling */
+#breakdown-modal textarea {
+  background-color: #000;
+  border: 1px solid #555;
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  transition: all 0.3s ease;
+  resize: none;
+}
+
+#breakdown-modal textarea::placeholder {
+  color: #666;
+  font-style: italic;
+}
+
+#breakdown-modal textarea:focus {
+  border-color: #fff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+/* =========================================================
+   ⛶ Fullscreen Editor Mode
+   ========================================================= */
+
+#script-text.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90vw;
+  height: 90vh;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* raised so content doesn't overlap overlay */
+  background-color: #000;
+  border: 2px solid #fff;
+  padding: 1.5rem;
+  resize: none;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Fullscreen button always above */
+#fullscreen-btn {
+  position: absolute;
+  top: -2.2rem;
+  right: 0.5rem;
+  font-size: 1.2rem;
+  color: #aaa;
+  transition: all 0.3s ease;
+  z-index: 2000; /* higher than fullscreen textarea */
+  cursor: pointer;
+}
+
+#fullscreen-btn:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
+/* =========================================================
+   💾 Buttons (Analyze, Download)
+   ========================================================= */
+
+#breakdown-modal button {
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 0.6rem 1rem;
+  margin: 0.3rem;
+}
+
+/* Analyze button */
+#breakdown-modal #submit-button {
+  background-color: #fff;
+  color: #000;
+}
+#breakdown-modal #submit-button:hover {
+  background-color: #ccc;
+}
+
+/* Download CSV button — fixed position inside modal footer */
+#breakdown-modal #download-csv-btn {
+  background-color: #fff;
+  color: #000;
+  position: relative;
+  z-index: 1500; /* above modal content */
+}
+#breakdown-modal #download-csv-btn:hover {
+  background-color: #ccc;
+}
+
+/* =========================================================
+   💰 Production Cost & Results
+   ========================================================= */
+
+#breakdown-modal #output-area {
+  background-color: #000;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 1rem;
+}
+
+#breakdown-modal #output-area p {
+  color: #999;
+}
+
+#breakdown-modal #loading-message {
+  color: #bbb;
+}
+
+/* Cost section */
+#output-area div.mt-6 {
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+}
+
+/* =========================================================
+   🎭 Gender Ratio Chart
+   ========================================================= */
+
+#gender-chart-container {
+  background-color: #000;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+#genderChart {
+  filter: grayscale(100%) contrast(130%);
+}
+
+/* =========================================================
+   ✨ Animations and Effects
+   ========================================================= */
+
+#quote {
+  transition: opacity 0.6s ease-in-out;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Subtle film grain overlay (optional aesthetic touch) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.02) 0,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 2px
+    ),
+    radial-gradient(rgba(255, 255, 255, 0.02), transparent 70%);
+  z-index: 999; /* moved below functional buttons */
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+}
