@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinecon.Ally</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js for future graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-black text-white">
+  <!-- 🔹 Background Video -->
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="background_html.mp4" type="video/mp4" />
+  </video>
+
+  <!-- 🔹 Dark Overlay -->
+  <div class="overlay absolute inset-0"></div>
+
+  <!-- 🔹 Main Content -->
+  <div class="relative min-h-screen flex flex-col items-center justify-center p-6">
+    <header class="absolute top-0 left-0 right-0 p-6 md:p-8">
+      <nav class="flex justify-between items-center w-full max-w-7xl mx-auto">
+        <div class="text-sm font-bold tracking-wider">
+          <a href="#" class="hover:text-gray-300 transition-colors">SJCET PALAI</a>
+        </div>
+        <div
+          class="hidden md:flex items-center space-x-8 text-sm font-bold tracking-wider"
+        >
+          <a href="#" class="hover:text-gray-300 transition-colors">CINEHACK.AI</a>
+          <a href="#" class="hover:text-gray-300 transition-colors">PAULY JR PICTURES</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="text-center flex flex-col items-center">
+      <h1
+        class="main-title text-5xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-wider"
+      >
+        Cinecon.Ally
+      </h1>
+
+      <p
+        id="quote"
+        class="text-base md:text-lg max-w-3xl mx-auto mb-8 font-normal tracking-wide h-24 flex items-center justify-center text-center transition-opacity duration-700 ease-in-out"
+      ></p>
+
+      <!-- 🔹 Upload File Button -->
+      <button
+        id="open-modal-btn"
+        class="bg-white text-black font-semibold py-3 px-8 rounded-full hover:bg-gray-200 transition-all duration-300 ease-in-out hover:scale-105 mb-8 tracking-wider"
+      >
+        UPLOAD FILE
+      </button>
+
+      
+    </main>
+
+    <!-- 🔹 Mobile Footer Links -->
+    <div
+      class="md:hidden absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-50"
+    >
+      <div
+        class="flex justify-around items-center text-xs font-bold tracking-wider"
+      >
+        <a href="#" class="hover:text-gray-300 transition-colors">CINEHACK.AI</a>
+        <a href="#" class="hover:text-gray-300 transition-colors">PAULY JR PICTURES</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Breakdown Modal -->
+  <div
+    id="breakdown-modal"
+    class="fixed inset-0 bg-black bg-opacity-95 z-50 p-4 overflow-y-auto hidden"
+  >
+    <div
+      class="max-w-4xl mx-auto bg-black border border-gray-700 rounded-lg shadow-2xl p-6 md:p-10 my-8"
+    >
+      <div class="flex justify-between items-start mb-6">
+        <h2 class="text-3xl font-bold text-white uppercase tracking-widest">
+          AI Script Breakdown Tool
+        </h2>
+        <button id="close-modal-btn" class="text-gray-400 hover:text-white text-2xl">
+          &times;
+        </button>
+      </div>
+
+      <!-- 🔹 Text Editor with Fullscreen Toggle -->
+      <form id="upload-form">
+        <div class="relative">
+          <label
+            for="script-text"
+            class="block text-lg font-medium mb-2 text-gray-300"
+          >
+            Paste or Write Screenplay:
+          </label>
+          <button
+            type="button"
+            id="fullscreen-btn"
+            class="absolute top-0 right-0 text-gray-400 hover:text-white transition-all z-50"
+            title="Toggle Fullscreen"
+          >
+            <i class="fas fa-expand"></i>
+          </button>
+
+          <textarea
+            id="script-text"
+            rows="10"
+            class="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg text-white font-mono resize-none"
+            placeholder="INT. OFFICE – NIGHT..."
+            required
+          ></textarea>
+        </div>
+
+        <button
+          id="submit-button"
+          type="submit"
+          class="mt-4 w-full bg-white text-black font-bold py-3 rounded-md hover:bg-gray-200 transition-colors disabled:bg-gray-500"
+        >
+          ANALYZE SCRIPT
+        </button>
+      </form>
+
+      <p
+        id="loading-message"
+        class="text-center mt-4 text-gray-300 font-semibold hidden"
+      >
+        <i class="fas fa-spinner fa-spin mr-2"></i> Processing Breakdown...
+      </p>
+
+      <!-- 🔹 Results -->
+      <div id="results-container" class="mt-6">
+        <div
+          id="output-area"
+          class="p-4 bg-black border border-gray-700 rounded-md text-left min-h-24 overflow-x-auto"
+        >
+          <p class="text-gray-500 italic">
+            Results will appear here after analysis.
+          </p>
+        </div>
+
+        <!-- Gender Ratio Chart -->
+        <div id="gender-chart-container" class="mt-6 hidden text-center">
+          <h3 class="text-xl font-bold text-white mb-2">
+            🎭 Male–Female Screen Space Ratio
+          </h3>
+          <canvas id="genderChart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- 🔹 CSV Download Button -->
+        <button
+          id="download-csv-btn"
+          class="mt-4 w-full bg-white text-black font-bold py-3 rounded-md hover:bg-gray-200 transition-colors hidden"
+        >
+          Download as CSV
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
