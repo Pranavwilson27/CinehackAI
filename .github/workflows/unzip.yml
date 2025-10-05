@@ -1,0 +1,40 @@
+name: Unzip and commit
+
+# run this manually from the Actions tab
+on:
+  workflow_dispatch:
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Find a .zip file in repo root
+        run: |
+          ZIPFILE=$(ls *.zip 2>/dev/null | head -n1) || { echo "No .zip file found in repo root; aborting."; exit 1; }
+          echo "Found: $ZIPFILE"
+          echo "ZIPFILE=$ZIPFILE" >> $GITHUB_ENV
+
+      - name: Unpack into repository root
+        run: |
+          ZIPFILE=$(ls *.zip | head -n1)
+          echo "Unzipping $ZIPFILE into repo root"
+          unzip -q "$ZIPFILE" -d .
+
+      - name: (Optional) Remove the source zip from the repo
+        if: true
+        run: |
+          rm -f "${{ env.ZIPFILE }}"
+
+      - name: Commit extracted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Unpacked $ZIPFILE into ${ZIPFILE%.*}" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref_name }}
