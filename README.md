@@ -77,3 +77,11 @@ Cinicon.Ally aims to evolve into a comprehensive pre-production suite for writer
 * JavaScript
 
 
+![WhatsApp Image 2025-10-06 at 04 23 00_71699daa](https://github.com/user-attachments/assets/d2ca09e1-cf26-4397-929a-3c8383cecbc6)
+
+![WhatsApp Image 2025-10-06 at 04 23 00_78339817](https://github.com/user-attachments/assets/ae5f547e-ff57-42a3-b376-160f4b139696)
+
+![WhatsApp Image 2025-10-06 at 04 23 01_294e2f47](https://github.com/user-attachments/assets/a25642d1-5947-4b28-993a-16d58f74ae87)
+![WhatsApp Image 2025-10-06 at 04 23 01_f8ad62d5](https://github.com/user-attachments/assets/e448389a-b09f-4dcb-96c8-45e4b1349427)
+![WhatsApp Image 2025-10-06 at 04 23 01_4e66e4ef](https://github.com/user-attachments/assets/3742f50f-d2d2-4320-939c-58cd6af18f16)
+![WhatsApp Image 2025-10-06 at 04 23 01_a01b5d6e](https://github.com/user-attachments/assets/ed7892ef-2e49-4dc7-9359-378cd76c2873)
