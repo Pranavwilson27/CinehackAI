@@ -42,7 +42,7 @@ body {
 }
 
 /* =========================================================
-   🎞️ AI SCRIPT BREAKDOWN TOOL STYLING
+   🎞 AI SCRIPT BREAKDOWN TOOL STYLING
    ========================================================= */
 
 #breakdown-modal {
@@ -139,21 +139,22 @@ body {
 }
 
 /* Fullscreen button always above */
+/* Fullscreen toggle button — fixed outside the textarea */
 #fullscreen-btn {
-  position: absolute;
-  top: -2.2rem;
-  right: 0.5rem;
-  font-size: 1.2rem;
+  position: fixed; /* was absolute before */
+  top: 1rem;       /* distance from top of screen */
+  right: 1rem;     /* distance from right of screen */
+  font-size: 1.5rem;
   color: #aaa;
+  z-index: 10000;  /* above everything */
   transition: all 0.3s ease;
-  z-index: 2000; /* higher than fullscreen textarea */
-  cursor: pointer;
 }
 
 #fullscreen-btn:hover {
   color: #fff;
   transform: scale(1.2);
 }
+
 
 /* =========================================================
    💾 Buttons (Analyze, Download)
@@ -229,9 +230,7 @@ body {
   filter: grayscale(100%) contrast(130%);
 }
 
-/* =========================================================
-   ✨ Animations and Effects
-   ========================================================= */
+
 
 #quote {
   transition: opacity 0.6s ease-in-out;
@@ -258,4 +257,34 @@ body::before {
   pointer-events: none;
   mix-blend-mode: overlay;
   opacity: 0.3;
+}
+/* Fullscreen editor centered text */
+#script-text.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80vw; /* narrower for aesthetic */
+  height: 80vh;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #000;
+  border: 2px solid #fff;
+  padding: 2rem;
+  resize: none;
+  outline: none;
+  font-size: 1.1rem;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+
+  /* Center text styling */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* or center if you want vertically centered */
+  text-align: center;          /* horizontal centering of text */
+  white-space: pre-wrap;       /* preserve formatting for screenplay */
+  line-height: 1.5;
+}
+
+/* Non-fullscreen, still centered-ish in modal */
+#script-text {
+  text-align: center;
 }
